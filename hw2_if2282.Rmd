@@ -1,0 +1,76 @@
+---
+title: "P8105_HW2_if2282"
+author: Ifrah Fayyaz
+output: github_document
+---
+
+```{r, echo = FALSE, message = FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+# Problem 1
+
+## Reading Mr. Trash Wheel Dataset:
+
+```{r}
+trash_wheel = 
+  read_excel(
+    "data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+    sheet = "Mr. Trash Wheel",
+    range = "A2:N408"
+    ) %>%
+  janitor::clean_names() %>%
+  na.omit() %>%
+  mutate(sports_balls = round(sports_balls, digits = 0)) %>%
+  mutate(homes_powered = round(homes_powered, digits = 0))
+```
+
+Description:
+The dataset for Mr. Trashwheel contains `r ncol(trash_wheel)` variables and `r nrow(trash_wheel)` observations. The median number of sports balls in a dumpster in 2017 were `r filter(trash_wheel, year == 2017) %>% pull(sports_balls) %>% median()`. 
+
+## Reading Precipiation Datasets for 2018 and 2019:
+
+```{r}
+precipitation_2018 = 
+  read_excel(
+    "data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+    sheet = "2018 Precipitation",
+    range = "A2:B14"
+  ) %>%
+  janitor::clean_names() %>%
+  na.omit() %>%
+  mutate(year = "2018")
+
+precipitation_2019 = 
+  read_excel(
+    "data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+    sheet = "2019 Precipitation",
+    range = "A2:B14"
+  ) %>%
+  janitor::clean_names() %>%
+  na.omit() %>%
+  mutate(year = "2019")
+
+precipitation =
+  bind_rows(precipitation_2018, precipitation_2019) %>%
+  mutate(month = month.name[month])
+```
+
+Description:
+The dataset of Precipitation contains `r ncol(precipitation)` variables and `r nrow(precipitation)` observations. The total precipitation in the year 2018 was `r filter(precipitation, year == 2018) %>% pull(total) %>% sum()` and `r filter(precipitation, year == 2019) %>% pull(total) %>% sum()` in 2019. 
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
