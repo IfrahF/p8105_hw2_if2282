@@ -4,7 +4,7 @@ author: Ifrah Fayyaz
 output: github_document
 ---
 
-```{r, echo = FALSE, message = FALSE}
+```{r, message = FALSE}
 library(tidyverse)
 library(readxl)
 ```
@@ -13,7 +13,7 @@ library(readxl)
 
 ## Reading Mr. Trash Wheel Dataset:
 
-```{r}
+```{r, message = FALSE}
 trash_wheel = 
   read_excel(
     "data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
@@ -31,7 +31,7 @@ The dataset for Mr. Trashwheel contains `r ncol(trash_wheel)` variables and `r n
 
 ## Reading Precipiation Datasets for 2018 and 2019:
 
-```{r}
+```{r, message = FALSE}
 precipitation_2018 = 
   read_excel(
     "data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
@@ -63,7 +63,7 @@ The dataset of Precipitation contains `r ncol(precipitation)` variables and `r n
 
 # Problem 2
 
-```{r}
+```{r, message = FALSE}
 pol_months = 
   read_csv("data/fivethirtyeight_datasets/pols-month.csv") %>%
   separate(mon, sep = '-', into = c("year", "month", "day")) %>%
@@ -97,7 +97,7 @@ fivethree8 =
 
 The pol_months dataset is related to the number of national politicians who are democratic or republican at any given time. The dataset contained `r nrow(pol_months)` observations. The snp dataset is related to Standard & Poor’s stock market index (S&P), often used as a representative measure of stock market as a whole. The dataset contained `r nrow(snp)` observations. Lastly, the unemploy dataset contains the unemployment rates of the years and months. The dataset contained `r nrow(unemploy)` observations.
 
-The fivethree8 dataset was a merge of all the three datasets listed above. It had a total of  `r nrow(fivethree8)` observations and `r ncol(fivethree8)` variables: `r names(fivethree8)`
+The fivethree8 dataset was a merge of all the three datasets listed above. It had a total of  `r nrow(fivethree8)` observations and `r ncol(fivethree8)` variables: `r names(fivethree8)`. The years included in this dataset ranged from `r range(pull(fivethree8, year))`.
 
 
 
