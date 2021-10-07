@@ -27,7 +27,7 @@ trash_wheel =
 ```
 
 Description:
-The dataset for Mr. Trashwheel contains `r ncol(trash_wheel)` variables and `r nrow(trash_wheel)` observations. The median number of sports balls in a dumpster in 2017 were `r filter(trash_wheel, year == 2017) %>% pull(sports_balls) %>% median()`. 
+The dataset for Mr. Trashwheel contains `r ncol(trash_wheel)` variables and `r nrow(trash_wheel)` observations. The median number of sports balls in a dumpster in 2017 were `r filter(trash_wheel, year == 2017) %>% pull(sports_balls) %>% median()`. The mean weight of trash accumulated by Mr. Trashweel in 2014 was `r filter(trash_wheel, year == 2014) %>% pull(weight_tons) %>% mean()` tons.
 
 ## Reading Precipiation Datasets for 2018 and 2019:
 
