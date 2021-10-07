@@ -4,7 +4,7 @@ author: Ifrah Fayyaz
 output: github_document
 ---
 
-```{r, message = FALSE}
+```{r, echo = TRUE, message = FALSE}
 library(tidyverse)
 library(readxl)
 ```
@@ -100,17 +100,73 @@ The pol_months dataset is related to the number of national politicians who are 
 The fivethree8 dataset was a merge of all the three datasets listed above. It had a total of  `r nrow(fivethree8)` observations and `r ncol(fivethree8)` variables: `r names(fivethree8)`. The years included in this dataset ranged from `r range(pull(fivethree8, year))`.
 
 
+# Problem 3
 
-```{r}
+Some data tidying at first:
 
+```{r, message = FALSE}
+pop_baby =
+  read_csv("data/Popular_Baby_Names.csv") %>%
+  janitor::clean_names() %>%
+  mutate(childs_first_name = str_to_title(childs_first_name)) %>%
+  mutate(ethnicity = recode(ethnicity, "BLACK NON HISP" = "BLACK NON HISPANIC")) %>%
+  mutate(ethnicity = recode(ethnicity, "WHITE NON HISP" = "WHITE NON HISPANIC")) %>%
+  mutate(ethnicity = recode(ethnicity, "ASIAN AND PACI" = "ASIAN AND PACIFIC ISLANDER")) %>%
+  distinct(year_of_birth, gender, ethnicity, childs_first_name, .keep_all = TRUE)
+```
+
+Table for the popularity of the name Olivia: 
+
+```{r, message = FALSE}
+olivia = 
+  pop_baby %>%
+  filter(childs_first_name == "Olivia") %>%
+  select(year_of_birth, ethnicity, rank) %>%
+  arrange(year_of_birth)
+ 
+olivia %>%  
+   pivot_wider(
+    names_from = "year_of_birth",
+    values_from = "rank"
+  ) %>%
+  knitr::kable()
 ```
 
 
-```{r}
+Table for the most popular of the male name for different ethnicity over time: 
 
+```{r, message = FALSE}
+pop_male = 
+  pop_baby %>%
+  filter(gender == "MALE") %>%
+  filter(rank == 1) %>%
+  select(year_of_birth, childs_first_name, ethnicity) %>%
+  arrange(year_of_birth)
+
+pop_male %>%
+  pivot_wider(
+    names_from = "year_of_birth",
+    values_from = "childs_first_name"
+  ) %>%
+  knitr::kable()
+```
+
+Showing scatter plot for male, white non-Hispanic children born in 2016:
+
+```{r, message = FALSE}
+sc_plot = 
+  pop_baby %>%
+  filter(gender == "MALE", ethnicity == "WHITE NON HISPANIC", year_of_birth == 2016) %>%
+  select(childs_first_name, count, rank) 
+
+sc_plot %>%
+  ggplot(aes(x = count, y = rank)) +
+  geom_point(color = "purple") + 
+  labs(
+    title = "Count versus Rank plot for White non-Hispanic Males, 2016",
+    x = "Count",
+    y = "Rank"
+  ) 
 ```
 
 
-```{r}
-
-```
