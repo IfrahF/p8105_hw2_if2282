@@ -73,9 +73,11 @@ pol_months =
 
 snp = 
   read_csv("data/fivethirtyeight_datasets/snp.csv") %>% 
-  mutate(date = as.Date(date, "%m/%d/%y")) %>%
-  separate(date, sep = '-', into = c("year", "month", "day")) %>%
+  separate(date, sep = '/', into = c("month", "day", "year")) %>%
+  mutate(year = as.numeric(year)) %>%
+  mutate(year = ifelse(year < 20, 2000 + year, 1900 + year)) %>%
   mutate(month = month.abb[as.numeric(month)]) %>%
+  mutate(year = as.character(year)) %>%
   select(-day)
 
 unemploy = 
@@ -95,7 +97,7 @@ fivethree8 =
   inner_join(five38, unemploy, by = c("year" = "year","month" = "month"))
 ```
 
-The pol_months dataset is related to the number of national politicians who are democratic or republican at any given time. The dataset contained `r nrow(pol_months)` observations. The snp dataset is related to Standard & Poor’s stock market index (S&P), often used as a representative measure of stock market as a whole. The dataset contained `r nrow(snp)` observations. Lastly, the unemploy dataset contains the unemployment rates of the years and months. The dataset contained `r nrow(unemploy)` observations.
+The pol_months dataset is related to the number of national politicians who are democratic or republican at any given time. The dataset contained `r nrow(pol_months)` observations ranging from `r min(pull(pol_months, year))` to `r max(pull(pol_months, year))`. The snp dataset is related to Standard & Poor’s stock market index (S&P), often used as a representative measure of stock market as a whole. The dataset contained `r nrow(snp)` observations ranging from `r min(pull(snp, year))` to `r max(pull(snp, year))`. Lastly, the unemploy dataset contains the unemployment rates of the years and months. The dataset contained `r nrow(unemploy)` observations ranging from `r min(pull(unemploy, year))` to `r max(pull(unemploy, year))`.
 
 The fivethree8 dataset was a merge of all the three datasets listed above. It had a total of  `r nrow(fivethree8)` observations and `r ncol(fivethree8)` variables: `r names(fivethree8)`. The years included in this dataset ranged from `r min(pull(fivethree8, year))` to `r max(pull(fivethree8, year))`. When a democrat was president, the mean unemployment rate was `r filter(fivethree8, president == "Democrat") %>% pull(unemployment) %>% mean()` as compared to an unemployment rate of `r filter(fivethree8, president == "Republican") %>% pull(unemployment) %>% mean()` when a republican was president.
 
@@ -160,12 +162,12 @@ sc_plot =
   select(childs_first_name, count, rank) 
 
 sc_plot %>%
-  ggplot(aes(x = count, y = rank)) +
+  ggplot(aes(x = rank, y = count)) +
   geom_point(aes(color = childs_first_name), show.legend = FALSE) + 
   labs(
-    title = "Count versus Rank plot for White non-Hispanic Males, 2016",
-    x = "Count",
-    y = "Rank"
+    title = "Rank versus Count plot for White non-Hispanic Males, 2016",
+    x = "Rank",
+    y = "Count"
   ) 
 ```
 
