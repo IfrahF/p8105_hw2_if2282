@@ -16,9 +16,9 @@ library(readxl)
 ```{r, message = FALSE}
 trash_wheel = 
   read_excel(
-    "data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+    "data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
     sheet = "Mr. Trash Wheel",
-    range = "A2:N408"
+    range = "A2:N534"
     ) %>%
   janitor::clean_names() %>%
   na.omit() %>%
@@ -34,7 +34,7 @@ The dataset for Mr. Trashwheel contains `r ncol(trash_wheel)` variables and `r n
 ```{r, message = FALSE}
 precipitation_2018 = 
   read_excel(
-    "data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+    "data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
     sheet = "2018 Precipitation",
     range = "A2:B14"
   ) %>%
@@ -44,7 +44,7 @@ precipitation_2018 =
 
 precipitation_2019 = 
   read_excel(
-    "data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+    "data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
     sheet = "2019 Precipitation",
     range = "A2:B14"
   ) %>%
@@ -97,7 +97,7 @@ fivethree8 =
 
 The pol_months dataset is related to the number of national politicians who are democratic or republican at any given time. The dataset contained `r nrow(pol_months)` observations. The snp dataset is related to Standard & Poor’s stock market index (S&P), often used as a representative measure of stock market as a whole. The dataset contained `r nrow(snp)` observations. Lastly, the unemploy dataset contains the unemployment rates of the years and months. The dataset contained `r nrow(unemploy)` observations.
 
-The fivethree8 dataset was a merge of all the three datasets listed above. It had a total of  `r nrow(fivethree8)` observations and `r ncol(fivethree8)` variables: `r names(fivethree8)`. The years included in this dataset ranged from `r min(pull(fivethree8, year))` to `r max(pull(fivethree8, year))`.
+The fivethree8 dataset was a merge of all the three datasets listed above. It had a total of  `r nrow(fivethree8)` observations and `r ncol(fivethree8)` variables: `r names(fivethree8)`. The years included in this dataset ranged from `r min(pull(fivethree8, year))` to `r max(pull(fivethree8, year))`. When a democrat was president, the mean unemployment rate was `r filter(fivethree8, president == "Democrat") %>% pull(unemployment) %>% mean()` as compared to an unemployment rate of `r filter(fivethree8, president == "Republican") %>% pull(unemployment) %>% mean()` when a republican was president.
 
 
 # Problem 3
