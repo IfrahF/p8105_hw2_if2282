@@ -26,7 +26,7 @@ trash_wheel =
   mutate(homes_powered = round(homes_powered, digits = 0))
 ```
 
-Description:
+*Description:*
 The dataset for Mr. Trashwheel contains `r ncol(trash_wheel)` variables and `r nrow(trash_wheel)` observations. The median number of sports balls in a dumpster in 2017 were `r filter(trash_wheel, year == 2017) %>% pull(sports_balls) %>% median()`. The mean weight of trash accumulated by Mr. Trashweel in 2014 was `r filter(trash_wheel, year == 2014) %>% pull(weight_tons) %>% mean()` tons.
 
 ## Reading Precipiation Datasets for 2018 and 2019:
@@ -57,7 +57,7 @@ precipitation =
   mutate(month = month.name[month])
 ```
 
-Description:
+*Description:*
 The dataset of Precipitation contains `r ncol(precipitation)` variables and `r nrow(precipitation)` observations. The total precipitation in the year 2018 was `r filter(precipitation, year == 2018) %>% pull(total) %>% sum()` and `r filter(precipitation, year == 2019) %>% pull(total) %>% sum()` in 2019. 
 
 
@@ -97,12 +97,12 @@ fivethree8 =
 
 The pol_months dataset is related to the number of national politicians who are democratic or republican at any given time. The dataset contained `r nrow(pol_months)` observations. The snp dataset is related to Standard & Poor’s stock market index (S&P), often used as a representative measure of stock market as a whole. The dataset contained `r nrow(snp)` observations. Lastly, the unemploy dataset contains the unemployment rates of the years and months. The dataset contained `r nrow(unemploy)` observations.
 
-The fivethree8 dataset was a merge of all the three datasets listed above. It had a total of  `r nrow(fivethree8)` observations and `r ncol(fivethree8)` variables: `r names(fivethree8)`. The years included in this dataset ranged from `r range(pull(fivethree8, year))`.
+The fivethree8 dataset was a merge of all the three datasets listed above. It had a total of  `r nrow(fivethree8)` observations and `r ncol(fivethree8)` variables: `r names(fivethree8)`. The years included in this dataset ranged from `r min(pull(fivethree8, year))` to `r max(pull(fivethree8, year))`.
 
 
 # Problem 3
 
-Some data tidying at first:
+*Some data tidying at first:*
 
 ```{r, message = FALSE}
 pop_baby =
@@ -115,7 +115,7 @@ pop_baby =
   distinct(year_of_birth, gender, ethnicity, childs_first_name, .keep_all = TRUE)
 ```
 
-Table for the popularity of the name Olivia: 
+## Table for the popularity of the name Olivia: 
 
 ```{r, message = FALSE}
 olivia = 
@@ -133,7 +133,7 @@ olivia %>%
 ```
 
 
-Table for the most popular of the male name for different ethnicity over time: 
+## Table for the most popular male name for different ethnicity over time: 
 
 ```{r, message = FALSE}
 pop_male = 
@@ -151,7 +151,7 @@ pop_male %>%
   knitr::kable()
 ```
 
-Showing scatter plot for male, white non-Hispanic children born in 2016:
+## Showing scatter plot for male, white non-Hispanic children born in 2016:
 
 ```{r, message = FALSE}
 sc_plot = 
@@ -161,7 +161,7 @@ sc_plot =
 
 sc_plot %>%
   ggplot(aes(x = count, y = rank)) +
-  geom_point(color = "purple") + 
+  geom_point(aes(color = childs_first_name), show.legend = FALSE) + 
   labs(
     title = "Count versus Rank plot for White non-Hispanic Males, 2016",
     x = "Count",
